@@ -47,3 +47,11 @@ class Grafo:
             return self.vertices[nome_vertice]
         else:
             return None
+
+    def print_graph(self):
+        for nome_vertice, vertice in self.vertices.items():
+            print(f"vertice: \n    {vertice}")
+            print("vizinhos: ")
+            for nome_adj, adj in vertice.adjacencias.items():
+                print(f"    {adj}")
+            print("")
