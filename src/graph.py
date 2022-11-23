@@ -51,12 +51,13 @@ class Grafo:
     def setFitness(self, fitnessFunction, individual):
         self.fitness = fitnessFunction(individual)
 
-    def print_graph(self):
+    def print_graph(self, print_vertices: bool = True):
         print("Grafo:")
         print("Fitness: " + str(self.fitness) + "     " + "Mapped Fitness: " + str(self.mappedFitness))
-        for valor_vertice, vertice in self.vertices.items():
-            print(f"    vertice: \n        {vertice}")
-            print("     vizinhos: ")
-            for valor_adj, adj in vertice.adjacencias.items():
-                print(f"        {adj}")
-            print("")
+        if print_vertices:
+            for valor_vertice, vertice in self.vertices.items():
+                print(f"    vertice: \n        {vertice}")
+                print("     vizinhos: ")
+                for valor_adj, adj in vertice.adjacencias.items():
+                    print(f"        {adj}")
+                print("")
