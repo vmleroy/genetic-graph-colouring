@@ -3,8 +3,6 @@ class Vertice:
         self.valor = valor
         self.nome = nome
         self.color = None
-        self.fitness = None
-        self.mappedFitness = None
         self.adjacencias = {}
 
     def insere_adjacencias(self, vizinho: "Vertice"):
@@ -20,15 +18,15 @@ class Vertice:
         return (
             "Nome: " + str(self.nome) + "     " +
             "Valor: " + str(self.valor) + "     " +
-            "Color: " + str(self.color) + "     " +
-            "Fitness: " + str(self.fitness) + "     " +
-            "Mapped Fitness: " + str(self.mappedFitness)
+            "Color: " + str(self.color) + "     " 
         )
 
 class Grafo:
     def __init__(self, directed: bool = False):
         self.vertices = {}
         self.directed = directed
+        self.fitness = None
+        self.mappedFitness = None
 
     def adiciona_vertice(self, valor, nome_vertice: str = None) -> Vertice:
         # importante pois podem haver vertices que não tem arestas
@@ -49,11 +47,16 @@ class Grafo:
             return self.vertices[valor_vertice]
         else:
             return None
+    
+    def setFitness(self, fitnessFunction, individual):
+        self.fitness = fitnessFunction(individual)
 
     def print_graph(self):
+        print("Grafo:")
+        print("Fitness: " + str(self.fitness) + "     " + "Mapped Fitness: " + str(self.mappedFitness))
         for valor_vertice, vertice in self.vertices.items():
-            print(f"vertice: \n    {vertice}")
-            print("vizinhos: ")
+            print(f"    vertice: \n        {vertice}")
+            print("     vizinhos: ")
             for valor_adj, adj in vertice.adjacencias.items():
-                print(f"    {adj}")
+                print(f"        {adj}")
             print("")
