@@ -1,8 +1,11 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+
 class Vertice:
-    def __init__(self, valor, nome: str = None):
+    def __init__(self, valor, nome: str = None, color="#00FF00"):
         self.valor = valor
         self.nome = nome
-        self.color = None
+        self.color = color
         self.adjacencias = {}
 
     def insere_adjacencias(self, vizinho: "Vertice"):
@@ -18,19 +21,23 @@ class Vertice:
         return (
             "Nome: " + str(self.nome) + "     " +
             "Valor: " + str(self.valor) + "     " +
-            "Color: " + str(self.color) + "     " 
+            "Cor: " + str(self.color) + "     " 
         )
+
+    def __print__(self):
+        print(self.___str__())
 
 class Grafo:
     def __init__(self, directed: bool = False):
         self.vertices = {}
         self.directed = directed
         self.fitness = None
+        self.visual = []
         self.mappedFitness = None
 
-    def adiciona_vertice(self, valor, nome_vertice: str = None) -> Vertice:
+    def adiciona_vertice(self, valor, nome_vertice: str = None, color="#00FF00") -> Vertice: # std colour: green
         # importante pois podem haver vertices que não tem arestas
-        novo_vertice = Vertice(valor, nome_vertice)
+        novo_vertice = Vertice(valor, nome_vertice, color)
         self.vertices[valor] = novo_vertice
         return novo_vertice
 
@@ -39,7 +46,9 @@ class Grafo:
         vertice_destino = self.obtem_vertice(valor_destino)
         if not vertice_origem is None and not vertice_destino is None:
             vertice_origem.insere_adjacencias(vertice_destino)
+            self.visual.append([vertice_origem, vertice_destino])
             if not self.directed:
+                self.visual.append([vertice_destino, vertice_origem])
                 vertice_destino.insere_adjacencias(vertice_origem)
 
     def obtem_vertice(self, valor_vertice) -> Vertice:
@@ -61,3 +70,9 @@ class Grafo:
                 for valor_adj, adj in vertice.adjacencias.items():
                     print(f"        {adj}")
                 print("")
+
+    def visualize(self):
+        G = nx.Graph()
+        G.add_edges_from(self.visual)
+        nx.draw_networkx(G)
+        plt.show()
